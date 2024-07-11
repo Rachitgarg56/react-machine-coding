@@ -1,0 +1,67 @@
+import "./styles.css";
+import { useState } from "react";
+
+const arr = [
+  {
+    quesNo: 1,
+    question: 'How many bones does a cat have?',
+    answer: 'A cat has 230 bones - 6 more than a human',
+    displayAnswer: false,
+  },
+  {
+    quesNo: 2,
+    question: 'How much do cats sleep?',
+    answer: 'The average cat sleeps 12-16 hours per day',
+    displayAnswer: false,
+  },
+  {
+    quesNo: 3,
+    question: 'How long do cats live',
+    answer: 'Outdoor cats live 5 years on average. Indoor cats live 15 years on average.',
+    displayAnswer: false,
+  }
+]
+
+export default function App() {
+
+  const [data,setData] = useState(arr);
+
+  const handleClick = (quesNo) => {
+    setData((prev) => {
+      const prevs = [...prev]
+      const arr = prevs.map((dataItem)=>{
+        if (dataItem.quesNo === quesNo) {
+          return {
+            ...dataItem,
+            displayAnswer: !dataItem.displayAnswer,
+          }
+        }
+        return dataItem
+      })
+      return arr
+    })
+  }
+
+  return (
+    <div className="App">
+      <h1>Frequently Asked Question</h1>
+
+      <ul style={{listStyleType:'none'}}>
+        {
+          data.map((dataItem)=>{
+            return (
+              <li key={dataItem.quesNo} onClick={()=>handleClick(dataItem.quesNo)}>
+                <div style={{display:'flex', alignItems:'center', gap:'1rem'}}>
+                  <span>></span>
+                  <h3>{dataItem.question}</h3>
+                </div>
+                {dataItem.displayAnswer ? <p style={{textAlign:'left'}}>{dataItem.answer}</p> : ''}
+              </li>
+            )
+          })
+        }
+      </ul>
+
+    </div>
+  );
+}
